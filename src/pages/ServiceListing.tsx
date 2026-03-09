@@ -295,6 +295,11 @@ const ServiceListing = () => {
                     Call Now
                   </a>
                 )}
+
+                {/* Reviews for doctors and hospitals */}
+                {(type === "doctors" || type === "hospitals") && item.id && (
+                  <ReviewSection targetId={item.id} targetType={type === "doctors" ? "doctor" : "hospital"} targetName={item[config.nameKey]} />
+                )}
               </motion.div>
             ))}
           </div>
