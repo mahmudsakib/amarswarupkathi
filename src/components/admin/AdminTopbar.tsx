@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Search,
   Bell,
@@ -16,6 +17,19 @@ const AdminTopbar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const authUser = useMemo(() => {
+    try {
+      const auth = localStorage.getItem("uims_auth");
+      return auth ? JSON.parse(auth) : null;
+    } catch { return null; }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("uims_auth");
+    navigate("/login");
+  };
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -76,7 +90,7 @@ const AdminTopbar = () => {
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
               <User className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-sm font-medium text-foreground hidden sm:block">Admin</span>
+            <span className="text-sm font-medium text-foreground hidden sm:block">{authUser?.role || "Admin"}</span>
             <ChevronDown className="h-3 w-3 text-muted-foreground hidden sm:block" />
           </button>
           {profileOpen && (
@@ -88,7 +102,7 @@ const AdminTopbar = () => {
                 <Settings className="h-4 w-4" /> Settings
               </button>
               <div className="border-t border-border my-1" />
-              <button className="w-full text-left px-4 py-2.5 text-sm hover:bg-secondary text-destructive flex items-center gap-2">
+              <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 text-sm hover:bg-secondary text-destructive flex items-center gap-2">
                 <LogOut className="h-4 w-4" /> Logout
               </button>
             </div>
