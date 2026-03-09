@@ -24,7 +24,7 @@ const Navbar = () => {
             <a href="#" className="hover:text-foreground transition-colors">Emergency</a>
             <a href="#" className="hover:text-foreground transition-colors">About</a>
             <Link
-              to="/admin"
+              to="/login"
               className="gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               Admin Panel
