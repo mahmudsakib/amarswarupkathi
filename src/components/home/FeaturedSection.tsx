@@ -1,5 +1,6 @@
 import { Star, MapPin, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const featured = [
   {
@@ -29,14 +30,15 @@ const featured = [
 ];
 
 const FeaturedSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold font-display text-foreground mb-2">
-            Featured Services
+            {t('featured.title')}
           </h2>
-          <p className="text-muted-foreground">Top-rated services in your area</p>
+          <p className="text-muted-foreground">{t('featured.subtitle')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">

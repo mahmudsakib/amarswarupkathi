@@ -1,155 +1,187 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Search, ArrowLeft, Phone, MapPin, Clock, Star } from "lucide-react";
+import { Search, ArrowLeft, Phone, MapPin, Clock, Star, LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 import ReviewSection from "@/components/ReviewSection";
+import { useTranslation } from "react-i18next";
 
 interface ServiceConfig {
-  title: string;
+  titleKey: string; // translation key for title
   storageKey: string;
   nameKey: string;
   searchKeys: string[];
-  cardFields: { key: string; label: string; icon?: any }[];
+  cardFields: { key: string; labelKey: string; icon?: LucideIcon }[];
   badgeKey?: string;
   badgeColor?: string;
   filterKey?: string;
-  filterOptions?: string[];
-  filterLabel?: string;
+  filterOptions?: { value: string; labelKey: string }[];
+  filterLabelKey?: string;
   phoneKey?: string;
 }
 
 const serviceConfigs: Record<string, ServiceConfig> = {
   hospitals: {
-    title: "Hospitals",
+    titleKey: "serviceCategories.hospitals",
     storageKey: "uims_hospitals",
     nameKey: "name",
     searchKeys: ["name", "address", "type"],
     cardFields: [
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "phone", label: "Phone", icon: Phone },
-      { key: "hours", label: "Hours", icon: Clock },
-      { key: "services", label: "Services" },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "phone", labelKey: "common.phone", icon: Phone },
+      { key: "hours", labelKey: "common.hours", icon: Clock },
+      { key: "services", labelKey: "common.services" },
     ],
     badgeKey: "type",
     badgeColor: "bg-info/10 text-info",
     filterKey: "type",
-    filterOptions: ["Government", "Private"],
-    filterLabel: "Filter by Type",
+    filterOptions: [
+      { value: "Government", labelKey: "filters.government" },
+      { value: "Private", labelKey: "filters.private" },
+    ],
+    filterLabelKey: "filters.type",
     phoneKey: "phone",
   },
   doctors: {
-    title: "Doctors",
+    titleKey: "serviceCategories.doctors",
     storageKey: "uims_doctors",
     nameKey: "name",
     searchKeys: ["name", "specialization", "hospital"],
     cardFields: [
-      { key: "specialization", label: "Specialization" },
-      { key: "hospital", label: "Hospital", icon: MapPin },
-      { key: "visitingHours", label: "Hours", icon: Clock },
-      { key: "qualification", label: "Qualification" },
-      { key: "experience", label: "Experience" },
+      { key: "specialization", labelKey: "fields.specialization" },
+      { key: "hospital", labelKey: "common.hospital", icon: MapPin },
+      { key: "visitingHours", labelKey: "common.hours", icon: Clock },
+      { key: "qualification", labelKey: "fields.qualification" },
+      { key: "experience", labelKey: "fields.experience" },
     ],
     badgeKey: "specialization",
     badgeColor: "bg-success/10 text-success",
     filterKey: "specialization",
-    filterOptions: ["Cardiology", "Gynecology", "Pediatrics", "Medicine", "Orthopedics", "Surgery", "ENT", "Dermatology"],
-    filterLabel: "Filter by Specialization",
+    filterOptions: [
+      { value: "Cardiology", labelKey: "filters.cardiology" },
+      { value: "Gynecology", labelKey: "filters.gynecology" },
+      { value: "Pediatrics", labelKey: "filters.pediatrics" },
+      { value: "Medicine", labelKey: "filters.medicine" },
+      { value: "Orthopedics", labelKey: "filters.orthopedics" },
+      { value: "Surgery", labelKey: "filters.surgery" },
+      { value: "ENT", labelKey: "filters.ent" },
+      { value: "Dermatology", labelKey: "filters.dermatology" },
+    ],
+    filterLabelKey: "filters.specialization",
     phoneKey: "phone",
   },
   schools: {
-    title: "Schools",
+    titleKey: "serviceCategories.schools",
     storageKey: "uims_schools",
     nameKey: "name",
     searchKeys: ["name", "type", "principal"],
     cardFields: [
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "contact", label: "Contact", icon: Phone },
-      { key: "principal", label: "Principal" },
-      { key: "students", label: "Students" },
-      { key: "facilities", label: "Facilities" },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "contact", labelKey: "common.phone", icon: Phone },
+      { key: "principal", labelKey: "fields.principal" },
+      { key: "students", labelKey: "fields.students" },
+      { key: "facilities", labelKey: "fields.facilities" },
     ],
     badgeKey: "type",
     badgeColor: "bg-accent/10 text-accent",
     filterKey: "type",
-    filterOptions: ["Government", "Private"],
-    filterLabel: "Filter by Type",
+    filterOptions: [
+      { value: "Government", labelKey: "filters.government" },
+      { value: "Private", labelKey: "filters.private" },
+    ],
+    filterLabelKey: "filters.type",
     phoneKey: "contact",
   },
   "blood-donors": {
-    title: "Blood Donors",
+    titleKey: "serviceCategories.bloodDonors",
     storageKey: "uims_blood_donors",
     nameKey: "name",
     searchKeys: ["name", "bloodGroup", "address", "phone"],
     cardFields: [
-      { key: "bloodGroup", label: "Blood Group" },
-      { key: "phone", label: "Phone", icon: Phone },
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "lastDonation", label: "Last Donation" },
-      { key: "availability", label: "Status" },
+      { key: "bloodGroup", labelKey: "fields.bloodGroup" },
+      { key: "phone", labelKey: "common.phone", icon: Phone },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "lastDonation", labelKey: "fields.lastDonation" },
+      { key: "availability", labelKey: "common.status" },
     ],
     badgeKey: "bloodGroup",
     badgeColor: "bg-destructive/10 text-destructive",
     filterKey: "bloodGroup",
-    filterOptions: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    filterLabel: "Filter by Blood Group",
+    filterOptions: [
+      { value: "A+", labelKey: "A+" },
+      { value: "A-", labelKey: "A-" },
+      { value: "B+", labelKey: "B+" },
+      { value: "B-", labelKey: "B-" },
+      { value: "AB+", labelKey: "AB+" },
+      { value: "AB-", labelKey: "AB-" },
+      { value: "O+", labelKey: "O+" },
+      { value: "O-", labelKey: "O-" },
+    ],
+    filterLabelKey: "filters.bloodGroup",
     phoneKey: "phone",
   },
   "govt-offices": {
-    title: "Government Offices",
+    titleKey: "serviceCategories.govtOffices",
     storageKey: "uims_govt_offices",
     nameKey: "name",
     searchKeys: ["name", "department", "officer"],
     cardFields: [
-      { key: "department", label: "Department" },
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "contact", label: "Contact", icon: Phone },
-      { key: "services", label: "Services" },
-      { key: "officer", label: "Officer" },
+      { key: "department", labelKey: "fields.department" },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "contact", labelKey: "common.phone", icon: Phone },
+      { key: "services", labelKey: "common.services" },
+      { key: "officer", labelKey: "fields.officer" },
     ],
     badgeKey: "department",
     badgeColor: "bg-primary/10 text-primary",
     phoneKey: "contact",
   },
   businesses: {
-    title: "Businesses",
+    titleKey: "serviceCategories.businesses",
     storageKey: "uims_businesses",
     nameKey: "name",
     searchKeys: ["name", "owner", "category"],
     cardFields: [
-      { key: "owner", label: "Owner" },
-      { key: "category", label: "Category" },
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "phone", label: "Phone", icon: Phone },
-      { key: "hours", label: "Hours", icon: Clock },
-      { key: "description", label: "Description" },
+      { key: "owner", labelKey: "fields.owner" },
+      { key: "category", labelKey: "fields.category" },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "phone", labelKey: "common.phone", icon: Phone },
+      { key: "hours", labelKey: "common.hours", icon: Clock },
+      { key: "description", labelKey: "common.description" },
     ],
     badgeKey: "category",
     badgeColor: "bg-warning/10 text-warning",
     filterKey: "category",
-    filterOptions: ["Pharmacy", "Grocery", "Restaurant", "Electronics", "Agriculture", "Services"],
-    filterLabel: "Filter by Category",
+    filterOptions: [
+      { value: "Pharmacy", labelKey: "filters.pharmacy" },
+      { value: "Grocery", labelKey: "filters.grocery" },
+      { value: "Restaurant", labelKey: "filters.restaurant" },
+      { value: "Electronics", labelKey: "filters.electronics" },
+      { value: "Agriculture", labelKey: "filters.agriculture" },
+      { value: "Services", labelKey: "filters.services" },
+    ],
+    filterLabelKey: "filters.category",
     phoneKey: "phone",
   },
   emergency: {
-    title: "Emergency Services",
+    titleKey: "serviceCategories.emergency",
     storageKey: "uims_emergency",
     nameKey: "name",
     searchKeys: ["name", "category", "phone"],
     cardFields: [
-      { key: "category", label: "Category" },
-      { key: "phone", label: "Emergency Number", icon: Phone },
-      { key: "address", label: "Address", icon: MapPin },
-      { key: "contact", label: "Contact Person" },
-      { key: "available", label: "Available" },
+      { key: "category", labelKey: "fields.category" },
+      { key: "phone", labelKey: "fields.emergencyNumber", icon: Phone },
+      { key: "address", labelKey: "common.address", icon: MapPin },
+      { key: "contact", labelKey: "fields.contactPerson" },
+      { key: "available", labelKey: "fields.available" },
     ],
     badgeKey: "category",
     badgeColor: "bg-destructive/10 text-destructive",
     phoneKey: "phone",
   },
   jobs: {
-    title: "Jobs",
+    titleKey: "serviceCategories.jobs",
     storageKey: "",
     nameKey: "name",
     searchKeys: [],
@@ -158,9 +190,10 @@ const serviceConfigs: Record<string, ServiceConfig> = {
 };
 
 const ServiceListing = () => {
+  const { t } = useTranslation();
   const { type } = useParams<{ type: string }>();
   const config = serviceConfigs[type || ""];
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
 
@@ -169,7 +202,9 @@ const ServiceListing = () => {
       try {
         const stored = localStorage.getItem(config.storageKey);
         if (stored) setData(JSON.parse(stored));
-      } catch {}
+      } catch (error) {
+        // Silently fail if JSON parsing fails
+      }
     }
   }, [config?.storageKey]);
 
@@ -178,8 +213,8 @@ const ServiceListing = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold font-display text-foreground mb-4">Page Not Found</h1>
-          <Link to="/" className="text-primary hover:underline">← Back to Home</Link>
+          <h1 className="text-2xl font-bold font-display text-foreground mb-4">{t('common.pageNotFound')}</h1>
+          <Link to="/" className="text-primary hover:underline">← {t('common.back')}</Link>
         </div>
         <Footer />
       </div>
@@ -205,7 +240,7 @@ const ServiceListing = () => {
           <Link to="/" className="inline-flex items-center gap-1 text-primary-foreground/70 hover:text-primary-foreground text-sm mb-4 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold font-display text-primary-foreground">{config.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold font-display text-primary-foreground">{t(config.titleKey)}</h1>
           <p className="text-primary-foreground/70 mt-2">{filtered.length} results found</p>
         </div>
       </section>
@@ -217,7 +252,7 @@ const ServiceListing = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder={`Search ${config.title.toLowerCase()}...`}
+              placeholder={t('serviceListing.searchPlaceholder', { title: t(config.titleKey) })}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -227,11 +262,12 @@ const ServiceListing = () => {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
+              aria-label={t('serviceListing.filterOptions')}
               className="px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30"
             >
-              <option value="">{config.filterLabel || "All"}</option>
+                <option value="">{t('common.all')}</option>
               {config.filterOptions.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt.value} value={opt.value}>{t(opt.labelKey)}</option>
               ))}
             </select>
           )}
@@ -242,14 +278,14 @@ const ServiceListing = () => {
       <div className="container mx-auto px-4 py-8">
         {filtered.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
-            <p className="text-lg font-medium">No results found</p>
-            <p className="text-sm mt-1">Try a different search term or filter</p>
+            <p className="text-lg font-medium">{t('serviceListing.noResults')}</p>
+            <p className="text-sm mt-1">{t('serviceListing.tryDifferent')}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((item, i) => (
               <motion.div
-                key={item.id || i}
+                key={(item.id as string) || i}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
@@ -258,27 +294,27 @@ const ServiceListing = () => {
                 {/* Badge */}
                 {config.badgeKey && item[config.badgeKey] && (
                   <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-semibold ${config.badgeColor} mb-3`}>
-                    {item[config.badgeKey]}
+                    {String(item[config.badgeKey])}
                   </span>
                 )}
 
                 {/* Name */}
                 <h3 className="font-bold text-lg font-display text-foreground mb-3">
-                  {item[config.nameKey]}
+                  {String(item[config.nameKey])}
                 </h3>
 
                 {/* Fields */}
                 <div className="space-y-2">
                   {config.cardFields.map((field) => {
-                    const value = item[field.key];
+                    const value = item[field.key] as unknown;
                     if (!value) return null;
                     const Icon = field.icon;
                     return (
                       <div key={field.key} className="flex items-start gap-2 text-sm text-muted-foreground">
                         {Icon && <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" />}
-                        {!Icon && <span className="text-xs font-medium text-foreground/60 min-w-[80px]">{field.label}:</span>}
+                        {!Icon && <span className="text-xs font-medium text-foreground/60 min-w-[80px]">{t(field.labelKey)}:</span>}
                         <span className={field.key === config.phoneKey?.split(".")[0] ? "" : ""}>
-                          {value}
+                          {String(value)}
                         </span>
                       </div>
                     );
@@ -298,7 +334,7 @@ const ServiceListing = () => {
 
                 {/* Reviews for doctors and hospitals */}
                 {(type === "doctors" || type === "hospitals") && item.id && (
-                  <ReviewSection targetId={item.id} targetType={type === "doctors" ? "doctor" : "hospital"} targetName={item[config.nameKey]} />
+                  <ReviewSection targetId={String(item.id)} targetType={type === "doctors" ? "doctor" : "hospital"} targetName={String(item[config.nameKey])} />
                 )}
               </motion.div>
             ))}

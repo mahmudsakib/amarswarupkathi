@@ -27,23 +27,29 @@ const ReviewSection = ({ targetId, targetType, targetName }: ReviewSectionProps)
   const [hoverRating, setHoverRating] = useState(0);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const all: Review[] = JSON.parse(stored);
-        setReviews(all.filter((r) => r.targetId === targetId && r.targetType === targetType));
-      }
-    } catch {}
-  }, [targetId, targetType]);
+  if (typeof window === "undefined") return; // SSR safety
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      const all: Review[] = JSON.parse(stored) as Review[];
+      setReviews(all.filter(r => r.targetId === targetId && r.targetType === targetType));
+    }
+  } catch (error) {
+    console.error("Failed to load reviews", error);
+  }
+}, [targetId, targetType, storageKey]);
 
-  const saveReview = (newReview: Review) => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      const all: Review[] = stored ? JSON.parse(stored) : [];
-      all.unshift(newReview);
-      localStorage.setItem(storageKey, JSON.stringify(all));
-    } catch {}
-  };
+const saveReview = (newReview: Review) => {
+  if (typeof window === "undefined") return; // SSR safety
+  try {
+    const stored = localStorage.getItem(storageKey);
+    const all: Review[] = stored ? (JSON.parse(stored) as Review[]) : [];
+    all.unshift(newReview);
+    localStorage.setItem(storageKey, JSON.stringify(all));
+  } catch (error) {
+    console.error("Failed to save review", error);
+  }
+};
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +93,7 @@ const ReviewSection = ({ targetId, targetType, targetName }: ReviewSectionProps)
         <button
           key={star}
           type={interactive ? "button" : undefined}
+          aria-label={`Rate ${star} stars`}
           onClick={interactive ? () => setForm({ ...form, rating: star }) : undefined}
           onMouseEnter={interactive ? () => setHoverRating(star) : undefined}
           onMouseLeave={interactive ? () => setHoverRating(0) : undefined}

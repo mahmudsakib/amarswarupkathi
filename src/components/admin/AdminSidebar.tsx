@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   LayoutDashboard,
   Building2,
@@ -44,6 +45,7 @@ const bottomItems = [
 const AdminSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -78,7 +80,7 @@ const AdminSidebar = () => {
         </div>
         {!collapsed && (
           <span className="ml-3 font-bold text-base font-display text-sidebar-accent-foreground truncate">
-            Amar Upazila
+            {t('common.siteName')}
           </span>
         )}
       </div>

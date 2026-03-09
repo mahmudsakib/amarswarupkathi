@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const DEMO_USERS = [
   { email: "admin@amarupazila.gov.bd", password: "admin123", role: "Super Admin" },
@@ -16,6 +17,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,8 +55,8 @@ const LoginPage = () => {
           <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4 shadow-elevated">
             <span className="text-primary-foreground font-bold text-xl">আ</span>
           </div>
-          <h1 className="text-2xl font-bold font-display text-primary-foreground">Amar Upazila</h1>
-          <p className="text-primary-foreground/60 text-sm mt-1">Admin Panel Login</p>
+          <h1 className="text-2xl font-bold font-display text-primary-foreground">{t('common.siteName')}</h1>
+          <p className="text-primary-foreground/60 text-sm mt-1">{t('common.adminPanelLogin')}</p>
         </div>
 
         {/* Form */}

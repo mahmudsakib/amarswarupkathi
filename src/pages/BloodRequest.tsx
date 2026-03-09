@@ -200,18 +200,20 @@ const BloodRequestPage = () => {
                 <h2 className="text-lg font-bold font-display text-foreground flex items-center gap-2">
                   <Droplets className="h-5 w-5 text-destructive" /> Request Blood
                 </h2>
-                <button onClick={() => setFormOpen(false)} className="p-2 rounded-lg hover:bg-secondary text-muted-foreground"><X className="h-4 w-4" /></button>
+                <button onClick={() => setFormOpen(false)} aria-label="Close form" className="p-2 rounded-lg hover:bg-secondary text-muted-foreground"><X className="h-4 w-4" /></button>
               </div>
               <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Patient Name <span className="text-destructive">*</span></label>
                     <input required maxLength={100} value={form.patientName} onChange={(e) => setForm({ ...form, patientName: e.target.value })}
+                      placeholder="Enter patient name"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Blood Group <span className="text-destructive">*</span></label>
                     <select required value={form.bloodGroup} onChange={(e) => setForm({ ...form, bloodGroup: e.target.value })}
+                      aria-label="Select blood group"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30">
                       <option value="">Select...</option>
                       {bloodGroups.map((g) => <option key={g} value={g}>{g}</option>)}
@@ -222,11 +224,13 @@ const BloodRequestPage = () => {
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Units Needed</label>
                     <input type="number" min="1" max="10" value={form.units} onChange={(e) => setForm({ ...form, units: e.target.value })}
+                      placeholder="Number of units"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Urgency <span className="text-destructive">*</span></label>
                     <select required value={form.urgency} onChange={(e) => setForm({ ...form, urgency: e.target.value })}
+                      aria-label="Select urgency level"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30">
                       <option value="Urgent">Urgent</option>
                       <option value="Critical">Critical</option>
@@ -237,22 +241,26 @@ const BloodRequestPage = () => {
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">Hospital <span className="text-destructive">*</span></label>
                   <input required maxLength={200} value={form.hospital} onChange={(e) => setForm({ ...form, hospital: e.target.value })}
+                    placeholder="Enter hospital name"
                     className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">Location</label>
                   <input maxLength={200} value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })}
+                    placeholder="Enter location"
                     className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Contact Name <span className="text-destructive">*</span></label>
                     <input required maxLength={100} value={form.contactName} onChange={(e) => setForm({ ...form, contactName: e.target.value })}
+                      placeholder="Enter contact name"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Contact Phone <span className="text-destructive">*</span></label>
                     <input required type="tel" maxLength={20} value={form.contactPhone} onChange={(e) => setForm({ ...form, contactPhone: e.target.value })}
+                      placeholder="Enter contact phone"
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                 </div>

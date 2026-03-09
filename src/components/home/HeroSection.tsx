@@ -1,14 +1,22 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { t } = useTranslation();
 
   return (
-    <section className="relative gradient-hero min-h-[520px] flex items-center overflow-hidden">
+    <section className="relative min-h-[520px] flex items-center overflow-hidden">
+      {/* Background Image */}
+      {/* stylelint-disable-next-line */}
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/hero.jpg')" }} />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40" />
+
       {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-accent/10 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
@@ -27,14 +35,14 @@ const HeroSection = () => {
             transition={{ delay: 0.2 }}
             className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/20 text-primary-foreground/90 mb-6"
           >
-            🏘️ Your Digital Upazila Portal
+            {t('hero.subtitle')}
           </motion.span>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight mb-4 font-display">
-            Amar Upazila
+            {t('hero.title')}
           </h1>
           <p className="text-lg md:text-xl text-primary-foreground/75 mb-8 max-w-2xl mx-auto font-body">
-            Find hospitals, doctors, blood donors, schools, businesses, and emergency services — all in one place.
+            {t('hero.description')}
           </p>
 
           {/* Search bar */}
@@ -66,12 +74,12 @@ const HeroSection = () => {
             transition={{ delay: 0.6 }}
             className="mt-6 flex flex-wrap justify-center gap-2"
           >
-            {["B+ Blood", "Emergency", "Hospital", "Doctor", "School"].map((tag) => (
+            {["blood", "emergency", "hospital", "doctor", "school"].map((tag) => (
               <span
                 key={tag}
                 className="px-3 py-1 rounded-full text-xs font-medium bg-primary-foreground/10 text-primary-foreground/80 cursor-pointer hover:bg-primary-foreground/20 transition-colors"
               >
-                {tag}
+                {t(`tags.${tag}`)}
               </span>
             ))}
           </motion.div>

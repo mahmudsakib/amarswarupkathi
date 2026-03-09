@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border/50 shadow-sm">
@@ -14,20 +17,21 @@ const Navbar = () => {
             <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">আ</span>
             </div>
-            <span className="font-bold text-lg font-display text-foreground">Amar Upazila</span>
+            <span className="font-bold text-lg font-display text-foreground">{t('common.siteName')}</span>
           </Link>
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <Link to="/services/hospitals" className="hover:text-foreground transition-colors">Services</Link>
-            <Link to="/blood-request" className="hover:text-foreground transition-colors">Blood Bank</Link>
-            <Link to="/services/emergency" className="hover:text-foreground transition-colors">Emergency</Link>
-            <a href="#" className="hover:text-foreground transition-colors">About</a>
+            <Link to="/services/hospitals" className="hover:text-foreground transition-colors">{t('nav.services')}</Link>
+            <Link to="/blood-request" className="hover:text-foreground transition-colors">{t('nav.bloodBank')}</Link>
+            <Link to="/services/emergency" className="hover:text-foreground transition-colors">{t('nav.emergency')}</Link>
+            <a href="#" className="hover:text-foreground transition-colors">{t('nav.about')}</a>
+            <LanguageSwitcher />
             <Link
               to="/login"
               className="gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
             >
-              Admin Panel
+              {t('nav.adminPanel')}
             </Link>
           </div>
 
@@ -47,12 +51,15 @@ const Navbar = () => {
             className="md:hidden border-t border-border/50 bg-card overflow-hidden"
           >
             <div className="px-4 py-4 space-y-3 text-sm font-medium text-muted-foreground">
-              <Link to="/services/hospitals" className="block hover:text-foreground">Services</Link>
-              <Link to="/blood-request" className="block hover:text-foreground">Blood Bank</Link>
-              <Link to="/services/emergency" className="block hover:text-foreground">Emergency</Link>
-              <a href="#" className="block hover:text-foreground">About</a>
+              <Link to="/services/hospitals" className="block hover:text-foreground">{t('nav.services')}</Link>
+              <Link to="/blood-request" className="block hover:text-foreground">{t('nav.bloodBank')}</Link>
+              <Link to="/services/emergency" className="block hover:text-foreground">{t('nav.emergency')}</Link>
+              <a href="#" className="block hover:text-foreground">{t('nav.about')}</a>
+              <div className="flex justify-center">
+                <LanguageSwitcher />
+              </div>
               <Link to="/login" className="block gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-center font-semibold">
-                Admin Panel
+                {t('nav.adminPanel')}
               </Link>
             </div>
           </motion.div>

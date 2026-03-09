@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Save, Globe, Bell, Shield, Database } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const SettingsPage = () => {
-  const [siteName, setSiteName] = useState("Amar Upazila");
+  const { t } = useTranslation();
+  const [siteName, setSiteName] = useState(t('common.siteName'));
   const [siteDesc, setSiteDesc] = useState("Your Digital Upazila Portal");
   const [contactEmail, setContactEmail] = useState("info@amarupazila.gov.bd");
   const [contactPhone, setContactPhone] = useState("+880 1XXXXXXXXX");
@@ -45,22 +47,26 @@ const SettingsPage = () => {
         <div>
           <label className="block text-sm font-medium text-foreground mb-1">Site Name</label>
           <input value={siteName} onChange={e => setSiteName(e.target.value)} maxLength={100}
+            placeholder="Enter site name"
             className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
         <div>
           <label className="block text-sm font-medium text-foreground mb-1">Site Description</label>
           <input value={siteDesc} onChange={e => setSiteDesc(e.target.value)} maxLength={200}
+            placeholder="Enter site description"
             className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Contact Email</label>
             <input value={contactEmail} onChange={e => setContactEmail(e.target.value)} type="email" maxLength={255}
+              placeholder="Enter contact email"
               className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
           </div>
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Contact Phone</label>
             <input value={contactPhone} onChange={e => setContactPhone(e.target.value)} type="tel" maxLength={20}
+              placeholder="Enter contact phone"
               className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
           </div>
         </div>
@@ -81,6 +87,7 @@ const SettingsPage = () => {
             <span className="text-sm text-foreground">{n.label}</span>
             <button
               onClick={() => setNotifications({ ...notifications, [n.key]: !(notifications as any)[n.key] })}
+              aria-label={`Toggle ${n.label.toLowerCase()}`}
               className={`w-11 h-6 rounded-full transition-colors relative ${(notifications as any)[n.key] ? "bg-primary" : "bg-muted"}`}
             >
               <div className={`w-5 h-5 rounded-full bg-primary-foreground shadow-sm absolute top-0.5 transition-transform ${(notifications as any)[n.key] ? "translate-x-5" : "translate-x-0.5"}`} />
