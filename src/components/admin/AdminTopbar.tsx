@@ -17,6 +17,19 @@ const AdminTopbar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const authUser = useMemo(() => {
+    try {
+      const auth = localStorage.getItem("uims_auth");
+      return auth ? JSON.parse(auth) : null;
+    } catch { return null; }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("uims_auth");
+    navigate("/login");
+  };
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
