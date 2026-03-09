@@ -19,9 +19,9 @@ const Navbar = () => {
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Services</a>
-            <a href="#" className="hover:text-foreground transition-colors">Blood Bank</a>
-            <a href="#" className="hover:text-foreground transition-colors">Emergency</a>
+            <Link to="/services/hospitals" className="hover:text-foreground transition-colors">Services</Link>
+            <Link to="/blood-request" className="hover:text-foreground transition-colors">Blood Bank</Link>
+            <Link to="/services/emergency" className="hover:text-foreground transition-colors">Emergency</Link>
             <a href="#" className="hover:text-foreground transition-colors">About</a>
             <Link
               to="/login"
