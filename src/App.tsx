@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import LoginPage from "./pages/Login";
+import ServiceListing from "./pages/ServiceListing";
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import HospitalsPage from "./pages/admin/Hospitals";
@@ -30,7 +33,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/services/:type" element={<ServiceListing />} />
+          <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="hospitals" element={<HospitalsPage />} />
             <Route path="doctors" element={<DoctorsPage />} />
