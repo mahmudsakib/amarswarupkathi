@@ -90,7 +90,7 @@ const AdminTopbar = () => {
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
               <User className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-sm font-medium text-foreground hidden sm:block">Admin</span>
+            <span className="text-sm font-medium text-foreground hidden sm:block">{authUser?.role || "Admin"}</span>
             <ChevronDown className="h-3 w-3 text-muted-foreground hidden sm:block" />
           </button>
           {profileOpen && (
