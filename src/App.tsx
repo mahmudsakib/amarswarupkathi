@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/Login";
 import ServiceListing from "./pages/ServiceListing";
+import BloodRequestPage from "./pages/BloodRequest";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/services/:type" element={<ServiceListing />} />
+          <Route path="/blood-request" element={<BloodRequestPage />} />
           <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="hospitals" element={<HospitalsPage />} />

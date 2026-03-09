@@ -19,9 +19,9 @@ const Navbar = () => {
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Services</a>
-            <a href="#" className="hover:text-foreground transition-colors">Blood Bank</a>
-            <a href="#" className="hover:text-foreground transition-colors">Emergency</a>
+            <Link to="/services/hospitals" className="hover:text-foreground transition-colors">Services</Link>
+            <Link to="/blood-request" className="hover:text-foreground transition-colors">Blood Bank</Link>
+            <Link to="/services/emergency" className="hover:text-foreground transition-colors">Emergency</Link>
             <a href="#" className="hover:text-foreground transition-colors">About</a>
             <Link
               to="/login"
@@ -47,9 +47,9 @@ const Navbar = () => {
             className="md:hidden border-t border-border/50 bg-card overflow-hidden"
           >
             <div className="px-4 py-4 space-y-3 text-sm font-medium text-muted-foreground">
-              <a href="#" className="block hover:text-foreground">Services</a>
-              <a href="#" className="block hover:text-foreground">Blood Bank</a>
-              <a href="#" className="block hover:text-foreground">Emergency</a>
+              <Link to="/services/hospitals" className="block hover:text-foreground">Services</Link>
+              <Link to="/blood-request" className="block hover:text-foreground">Blood Bank</Link>
+              <Link to="/services/emergency" className="block hover:text-foreground">Emergency</Link>
               <a href="#" className="block hover:text-foreground">About</a>
               <Link to="/login" className="block gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-center font-semibold">
                 Admin Panel
