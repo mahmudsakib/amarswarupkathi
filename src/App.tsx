@@ -36,6 +36,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/services/:type" element={<ServiceListing />} />
+          <Route path="/blood-request" element={<BloodRequestPage />} />
           <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="hospitals" element={<HospitalsPage />} />
