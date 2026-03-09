@@ -4,6 +4,7 @@ import { Search, ArrowLeft, Phone, MapPin, Clock, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
+import ReviewSection from "@/components/ReviewSection";
 
 interface ServiceConfig {
   title: string;
