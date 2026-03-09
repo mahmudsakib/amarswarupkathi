@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { v4 } from "./uuid";
 
 export interface CrudOptions<T> {
   storageKey: string;
