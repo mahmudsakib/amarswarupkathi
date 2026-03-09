@@ -47,9 +47,9 @@ const Navbar = () => {
             className="md:hidden border-t border-border/50 bg-card overflow-hidden"
           >
             <div className="px-4 py-4 space-y-3 text-sm font-medium text-muted-foreground">
-              <a href="#" className="block hover:text-foreground">Services</a>
-              <a href="#" className="block hover:text-foreground">Blood Bank</a>
-              <a href="#" className="block hover:text-foreground">Emergency</a>
+              <Link to="/services/hospitals" className="block hover:text-foreground">Services</Link>
+              <Link to="/blood-request" className="block hover:text-foreground">Blood Bank</Link>
+              <Link to="/services/emergency" className="block hover:text-foreground">Emergency</Link>
               <a href="#" className="block hover:text-foreground">About</a>
               <Link to="/login" className="block gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-center font-semibold">
                 Admin Panel
