@@ -51,7 +51,7 @@ const Navbar = () => {
               <a href="#" className="block hover:text-foreground">Blood Bank</a>
               <a href="#" className="block hover:text-foreground">Emergency</a>
               <a href="#" className="block hover:text-foreground">About</a>
-              <Link to="/admin" className="block gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-center font-semibold">
+              <Link to="/login" className="block gradient-primary text-primary-foreground px-4 py-2 rounded-xl text-center font-semibold">
                 Admin Panel
               </Link>
             </div>
