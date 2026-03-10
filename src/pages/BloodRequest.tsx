@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Droplets, Phone, MapPin, Clock, AlertTriangle, ArrowLeft, Plus, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 
@@ -24,6 +25,7 @@ interface BloodRequest {
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const BloodRequestPage = () => {
+  const { t } = useTranslation();
   const [requests, setRequests] = useState<BloodRequest[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [filterGroup, setFilterGroup] = useState("");
@@ -63,7 +65,7 @@ const BloodRequestPage = () => {
     saveRequests([newRequest, ...requests]);
     setFormOpen(false);
     setForm({ patientName: "", bloodGroup: "", units: "1", hospital: "", location: "", contactName: "", contactPhone: "", urgency: "Urgent", details: "" });
-    toast.success("Blood request submitted! Donors will be notified.");
+    toast.success(t('bloodRequestPage.requestSubmitted'));
   };
 
   const filtered = filterGroup ? requests.filter((r) => r.bloodGroup === filterGroup) : requests;
@@ -85,21 +87,21 @@ const BloodRequestPage = () => {
       <section className="bg-destructive/5 border-b border-destructive/10 py-10">
         <div className="container mx-auto px-4">
           <Link to="/" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm mb-4 transition-colors">
-            <ArrowLeft className="h-4 w-4" /> Back to Home
+            <ArrowLeft className="h-4 w-4" /> {t('common.back')}
           </Link>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Droplets className="h-7 w-7 text-destructive" />
-                <h1 className="text-3xl font-bold font-display text-foreground">Emergency Blood Requests</h1>
+                <h1 className="text-3xl font-bold font-display text-foreground">{t('bloodRequestPage.title')}</h1>
               </div>
-              <p className="text-muted-foreground">Help save lives — respond to blood requests or submit your own</p>
+              <p className="text-muted-foreground">{t('bloodRequestPage.subtitle')}</p>
             </div>
             <button
               onClick={() => setFormOpen(true)}
               className="bg-destructive text-destructive-foreground px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity self-start"
             >
-              <Plus className="h-4 w-4" /> Request Blood
+              <Plus className="h-4 w-4" /> {t('bloodRequestPage.requestBlood')}
             </button>
           </div>
         </div>
@@ -112,7 +114,7 @@ const BloodRequestPage = () => {
             onClick={() => setFilterGroup("")}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${!filterGroup ? "gradient-primary text-primary-foreground" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}
           >
-            All Groups
+            {t('common.all')}
           </button>
           {bloodGroups.map((g) => (
             <button
@@ -129,8 +131,8 @@ const BloodRequestPage = () => {
         {active.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <Droplets className="h-12 w-12 mx-auto mb-3 opacity-30" />
-            <p className="text-lg font-medium">No active blood requests</p>
-            <p className="text-sm mt-1">Submit a request if you need blood urgently</p>
+            <p className="text-lg font-medium">{t('bloodRequestPage.noRequests')}</p>
+            <p className="text-sm mt-1">{t('bloodRequestPage.submitRequest')}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -160,7 +162,7 @@ const BloodRequestPage = () => {
                   </div>
                   <div>
                     <p className="font-bold text-foreground font-display">{req.patientName}</p>
-                    <p className="text-xs text-muted-foreground">{req.units} unit(s) needed</p>
+                    <p className="text-xs text-muted-foreground">{req.units} {t('bloodRequestPage.unitsNeeded')}</p>
                   </div>
                 </div>
 
@@ -176,7 +178,7 @@ const BloodRequestPage = () => {
                   href={`tel:${req.contactPhone}`}
                   className="w-full flex items-center justify-center gap-2 bg-destructive text-destructive-foreground py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
-                  <Phone className="h-4 w-4" /> Call to Donate
+                  <Phone className="h-4 w-4" /> {t('bloodRequestPage.callToDonate')}
                 </a>
               </motion.div>
             ))}
@@ -198,81 +200,81 @@ const BloodRequestPage = () => {
             >
               <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                 <h2 className="text-lg font-bold font-display text-foreground flex items-center gap-2">
-                  <Droplets className="h-5 w-5 text-destructive" /> Request Blood
+                  <Droplets className="h-5 w-5 text-destructive" /> {t('bloodRequestPage.requestBlood')}
                 </h2>
                 <button onClick={() => setFormOpen(false)} aria-label="Close form" className="p-2 rounded-lg hover:bg-secondary text-muted-foreground"><X className="h-4 w-4" /></button>
               </div>
               <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Patient Name <span className="text-destructive">*</span></label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.patientName')} <span className="text-destructive">*</span></label>
                     <input required maxLength={100} value={form.patientName} onChange={(e) => setForm({ ...form, patientName: e.target.value })}
-                      placeholder="Enter patient name"
+                      placeholder={t('bloodRequest.patientName')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Blood Group <span className="text-destructive">*</span></label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.bloodGroup')} <span className="text-destructive">*</span></label>
                     <select required value={form.bloodGroup} onChange={(e) => setForm({ ...form, bloodGroup: e.target.value })}
-                      aria-label="Select blood group"
+                      aria-label={t('bloodRequest.selectBloodGroup')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30">
-                      <option value="">Select...</option>
+                      <option value="">{t('bloodRequest.selectBloodGroup')}</option>
                       {bloodGroups.map((g) => <option key={g} value={g}>{g}</option>)}
                     </select>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Units Needed</label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.unitsNeeded')}</label>
                     <input type="number" min="1" max="10" value={form.units} onChange={(e) => setForm({ ...form, units: e.target.value })}
-                      placeholder="Number of units"
+                      placeholder={t('bloodRequest.unitsNeeded')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Urgency <span className="text-destructive">*</span></label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.urgency')} <span className="text-destructive">*</span></label>
                     <select required value={form.urgency} onChange={(e) => setForm({ ...form, urgency: e.target.value })}
-                      aria-label="Select urgency level"
+                      aria-label={t('bloodRequest.selectUrgency')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30">
-                      <option value="Urgent">Urgent</option>
-                      <option value="Critical">Critical</option>
-                      <option value="Normal">Normal</option>
+                      <option value="Urgent">{t('bloodRequest.urgent')}</option>
+                      <option value="Critical">{t('bloodRequest.critical')}</option>
+                      <option value="Normal">{t('bloodRequest.normal')}</option>
                     </select>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">Hospital <span className="text-destructive">*</span></label>
+                  <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.hospital')} <span className="text-destructive">*</span></label>
                   <input required maxLength={200} value={form.hospital} onChange={(e) => setForm({ ...form, hospital: e.target.value })}
-                    placeholder="Enter hospital name"
+                    placeholder={t('bloodRequest.hospital')}
                     className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">Location</label>
+                  <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.location')}</label>
                   <input maxLength={200} value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })}
-                    placeholder="Enter location"
+                    placeholder={t('bloodRequest.location')}
                     className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Contact Name <span className="text-destructive">*</span></label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.contactName')} <span className="text-destructive">*</span></label>
                     <input required maxLength={100} value={form.contactName} onChange={(e) => setForm({ ...form, contactName: e.target.value })}
-                      placeholder="Enter contact name"
+                      placeholder={t('bloodRequest.contactName')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Contact Phone <span className="text-destructive">*</span></label>
+                    <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.contactPhone')} <span className="text-destructive">*</span></label>
                     <input required type="tel" maxLength={20} value={form.contactPhone} onChange={(e) => setForm({ ...form, contactPhone: e.target.value })}
-                      placeholder="Enter contact phone"
+                      placeholder={t('bloodRequest.contactPhone')}
                       className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">Additional Details</label>
+                  <label className="block text-sm font-medium text-foreground mb-1">{t('bloodRequest.details')}</label>
                   <textarea maxLength={500} rows={3} value={form.details} onChange={(e) => setForm({ ...form, details: e.target.value })}
-                    placeholder="Any additional information for donors..."
+                    placeholder={t('bloodRequest.details')}
                     className="w-full px-3 py-2.5 rounded-xl bg-background text-foreground text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
                 </div>
                 <button type="submit"
                   className="w-full bg-destructive text-destructive-foreground py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">
-                  Submit Blood Request
+                  {t('bloodRequest.submit')}
                 </button>
               </form>
             </motion.div>

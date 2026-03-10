@@ -40,6 +40,7 @@
     "services": "Services",
     "bloodBank": "Blood Bank",
     "emergency": "Emergency",
+    "infoCollect": "Info Collect",
     "about": "About",
     "adminPanel": "Admin Panel",
     "dashboard": "Dashboard",
@@ -85,11 +86,23 @@
     "location": "Location",
     "contactName": "Contact Name",
     "contactPhone": "Contact Phone",
+    "details": "Additional Details",
     "selectBloodGroup": "Select blood group",
     "selectUrgency": "Select urgency level",
     "urgent": "Urgent",
     "critical": "Critical",
-    "normal": "Normal"
+    "normal": "Normal",
+    "submit": "Submit Blood Request"
+  },
+  "bloodRequestPage": {
+    "title": "Emergency Blood Requests",
+    "subtitle": "Help save lives — respond to blood requests or submit your own",
+    "requestBlood": "Request Blood",
+    "noRequests": "No active blood requests",
+    "submitRequest": "Submit a request if you need blood urgently",
+    "unitsNeeded": "unit(s) needed",
+    "callToDonate": "Call to Donate",
+    "requestSubmitted": "Blood request submitted! Donors will be notified."
   },
   "serviceListing": {
     "filterOptions": "Filter options",
@@ -109,9 +122,31 @@
     "jobs": "Jobs",
     "emergency": "Emergency"
   },
-  "featured": {
-    "title": "Featured Services",
-    "subtitle": "Top-rated services in your area"
+  "emergency": {
+    "title": "Emergency Alerts",
+    "subtitle": "Important alerts and information for the community",
+    "noAlerts": "No emergency alerts at this time"
+  },
+  "emergencyContacts": {
+    "title": "Emergency Contacts",
+    "subtitle": "One-tap access to emergency services",
+    "police": "Police",
+    "fireService": "Fire Service",
+    "ambulance": "Ambulance",
+    "electricity": "Electricity"
+  },
+  "infoCollect": {
+    "title": "Information Collection",
+    "selectCategory": "Select category",
+    "details": "Details",
+    "forCategory": "Provide information for {{category}}",
+    "submit": "Submit"
+  },
+  "aboutPage": {
+    "title": "About আমাদের স্বরূপকাঠি",
+    "paragraph1": "Amarder Swarupkathi is the digital portal for our upazila, compiling all essential information and services in one platform.",
+    "paragraph2": "Founded to empower citizens with easy access to hospitals, doctors, schools, businesses, and emergency services, the site has grown with contributions from local administrators and community members.",
+    "paragraph3": "Our mission is to keep the information current and usable, helping residents make informed decisions and connecting them to vital resources."
   },
   "filters": {
     "Government": "Government",

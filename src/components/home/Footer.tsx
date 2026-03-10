@@ -1,5 +1,7 @@
 import { MapPin, Phone, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { services } from "@/lib/services";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -18,19 +20,31 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-3 font-display">{t('footer.quickLinks')}</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.hospitals')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.doctors')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.bloodDonors')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.schools')}</a></li>
+              {services.slice(0, 4).map((s) => (
+                <li key={s.labelKey}>
+                  <Link
+                    to={s.path}
+                    className="hover:text-primary-foreground transition-colors"
+                  >
+                    {t(s.labelKey!)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold text-primary-foreground mb-3 font-display">{t('footer.services')}</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.govtOffices')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.businesses')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.emergency')}</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">{t('serviceCategories.jobs')}</a></li>
+              {services.slice(4).map((s) => (
+                <li key={s.labelKey}>
+                  <Link
+                    to={s.path}
+                    className="hover:text-primary-foreground transition-colors"
+                  >
+                    {t(s.labelKey!)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
