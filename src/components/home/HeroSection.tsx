@@ -2,16 +2,58 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const searchMappings: Record<string, string> = {
+    'hospital': '/services/hospitals',
+    'doctor': '/services/doctors',
+    'school': '/services/schools',
+    'blood': '/services/blood-donors',
+    'donor': '/services/blood-donors',
+    'government': '/services/govt-offices',
+    'office': '/services/govt-offices',
+    'business': '/services/businesses',
+    'job': '/services/jobs',
+    'emergency': '/services/emergency',
+    'hospitals': '/services/hospitals',
+    'doctors': '/services/doctors',
+    'schools': '/services/schools',
+    'blood donors': '/services/blood-donors',
+    'govt offices': '/services/govt-offices',
+    'businesses': '/services/businesses',
+    'jobs': '/services/jobs',
+  };
+
+  const handleSearch = () => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return;
+
+    for (const [key, path] of Object.entries(searchMappings)) {
+      if (query.includes(key)) {
+        navigate(path);
+        return;
+      }
+    }
+    // If no match, navigate to hospitals as default
+    navigate('/services/hospitals');
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <section className="relative min-h-[520px] flex items-center overflow-hidden">
       {/* Background Image */}
       {/* stylelint-disable-next-line */}
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/hero.jpg')" }} />
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/unnamed.jpg')" }} />
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40" />
 
@@ -59,30 +101,19 @@ const HeroSection = () => {
                 placeholder="Search doctors, hospitals, blood donors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="w-full pl-12 pr-32 py-4 rounded-2xl bg-card text-card-foreground shadow-elevated text-base focus:outline-none focus:ring-2 focus:ring-primary/50 font-body"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 gradient-primary text-primary-foreground px-6 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity">
+              <button 
+                onClick={handleSearch}
+                className="absolute right-2 top-1/2 -translate-y-1/2 gradient-primary text-primary-foreground px-6 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity"
+              >
                 Search
               </button>
             </div>
           </motion.div>
 
           {/* Quick tags */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-6 flex flex-wrap justify-center gap-2"
-          >
-            {["blood", "emergency", "hospital", "doctor", "school"].map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 rounded-full text-xs font-medium bg-primary-foreground/10 text-primary-foreground/80 cursor-pointer hover:bg-primary-foreground/20 transition-colors"
-              >
-                {t(`tags.${tag}`)}
-              </span>
-            ))}
-          </motion.div>
         </motion.div>
       </div>
     </section>
