@@ -11,6 +11,9 @@ import ServiceCategories from "./components/home/ServiceCategories";
 import InfoCollect from "./pages/InfoCollect";
 import About from "./pages/About";
 import BloodRequestPage from "./pages/BloodRequest";
+import DeveloperDetails from "./pages/DeveloperDetails";
+import Announcement from "./pages/Announcement";
+import Map from "./pages/Map";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -43,6 +46,9 @@ const App = () => (
           <Route path="/services" element={<ServiceCategories />} />
           <Route path="/services/:type" element={<ServiceListing />} />
           <Route path="/blood-request" element={<BloodRequestPage />} />
+          <Route path="/developer-details" element={<DeveloperDetails />} />
+          <Route path="/announcement" element={<Announcement />} />
+          <Route path="/map" element={<Map />} />
           <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="hospitals" element={<HospitalsPage />} />

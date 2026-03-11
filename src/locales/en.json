@@ -57,7 +57,11 @@
     "about": "Your digital gateway to all essential services and information in the upazila.",
     "quickLinks": "Quick Links",
     "services": "Services",
-    "contact": "Contact"
+    "contact": "Contact",
+    "others": "Others",
+    "developerDetails": "Developer Details",
+    "announcement": "Announcement",
+    "map": "Map"
   },
   "login": {
     "title": "Admin Panel Login",

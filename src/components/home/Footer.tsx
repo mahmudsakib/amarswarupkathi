@@ -1,10 +1,23 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { services } from "@/lib/services";
 
 const Footer = () => {
   const { t } = useTranslation();
+
+  const quickLinks = [
+    { labelKey: 'nav.services', path: '/services' },
+    { labelKey: 'nav.bloodBank', path: '/blood-request' },
+    { labelKey: 'nav.infoCollect', path: '/info-collect' },
+    { labelKey: 'nav.about', path: '/about' },
+  ];
+
+  const otherLinks = [
+    { labelKey: 'footer.developerDetails', path: '/developer-details' },
+    { labelKey: 'footer.announcement', path: '/announcement' },
+    { labelKey: 'footer.map', path: '/map' },
+  ];
+
   return (
     <footer className="gradient-hero text-primary-foreground/80 py-12">
       <div className="container mx-auto px-4">
@@ -20,28 +33,28 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-3 font-display">{t('footer.quickLinks')}</h4>
             <ul className="space-y-2 text-sm">
-              {services.slice(0, 4).map((s) => (
-                <li key={s.labelKey}>
+              {quickLinks.map((link) => (
+                <li key={link.labelKey}>
                   <Link
-                    to={s.path}
+                    to={link.path}
                     className="hover:text-primary-foreground transition-colors"
                   >
-                    {t(s.labelKey!)}
+                    {t(link.labelKey)}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-primary-foreground mb-3 font-display">{t('footer.services')}</h4>
+            <h4 className="font-semibold text-primary-foreground mb-3 font-display">{t('footer.others')}</h4>
             <ul className="space-y-2 text-sm">
-              {services.slice(4).map((s) => (
-                <li key={s.labelKey}>
+              {otherLinks.map((link) => (
+                <li key={link.labelKey}>
                   <Link
-                    to={s.path}
+                    to={link.path}
                     className="hover:text-primary-foreground transition-colors"
                   >
-                    {t(s.labelKey!)}
+                    {t(link.labelKey)}
                   </Link>
                 </li>
               ))}
